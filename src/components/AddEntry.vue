@@ -36,6 +36,9 @@ export default {
     },
     user: {
       type: Object
+    },
+    transId: {
+      type: String || null
     }
   },
   data() {
@@ -43,7 +46,6 @@ export default {
       amount: 0,
       description: "",
       date: new Date().getFullYear() + "-" + (new Date().getMonth()+1) + "-" +  new Date().getDate(),
-      transId: ""
     };
   },
   methods: {
