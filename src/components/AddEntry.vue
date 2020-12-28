@@ -3,12 +3,12 @@
     <div v-if="income">
       <label>Income details</label>
       <label for="amount">Amount</label>
-      <b-form-input type="number" : id="amount"></b-form-input>
+      <b-form-input type="number" id="amount"></b-form-input>
     </div>
     <div v-else>
       <label>Expense details</label>
       <label for="amount">Amount</label>
-      <b-form-input type="number" : id="amount"></b-form-input>
+      <b-form-input type="number" id="amount"></b-form-input>
     </div>
   </div>
 </template>
