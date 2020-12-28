@@ -12,16 +12,22 @@
     <b-modal id="addIncome" title="Add income">
       <add-entry :income="true"></add-entry>
     </b-modal>
+
+    <entry-list :listitems="listitems"></entry-list>
   </div>
 </template>
 
 <script>
 //import firebase from "firebase";
 import AddEntry from "@/components/AddEntry.vue";
+import EntryList from "@/components/EntryList.vue";
 
 export default {
   name: "Home",
-  components: { AddEntry },
+  components: { AddEntry, EntryList },
   prop: ["user"],
+  data() {
+    return { listitems: [] };
+  },
 };
 </script>

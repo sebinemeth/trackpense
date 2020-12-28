@@ -13,5 +13,11 @@
 <script>
 export default {
   name: "Entry List",
+  props: {
+    listitems: {
+      type: Array,
+      default: []
+    }
+  }
 }
 </script>
