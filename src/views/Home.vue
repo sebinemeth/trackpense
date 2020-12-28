@@ -46,7 +46,7 @@
         <add-entry :income="true" :user="user"></add-entry>
       </b-modal>
 
-      <entry-list :listitems="listitems" class="mt-3"></entry-list>
+      <entry-list :listitems="listitems" :user="user" class="mt-3"></entry-list>
     </b-container>
   </div>
 </template>
@@ -65,6 +65,9 @@ export default {
   data() {
     return { listitems: [] };
   },
+  mounted() {
+    this.refresh();
+  },
   computed: {
     chartData() {
       let days = {};
@@ -80,11 +83,13 @@ export default {
           .reduce((acc, e) => acc + parseInt(e.amount), 0)
       );
 
-      days = Object.fromEntries(Object.entries(days).sort((a, b) => {
-        if (a[0] > b[0]) return 1;
-        if (a[0] < b[0]) return -1;
-        return 0;
-      }));
+      days = Object.fromEntries(
+        Object.entries(days).sort((a, b) => {
+          if (a[0] > b[0]) return 1;
+          if (a[0] < b[0]) return -1;
+          return 0;
+        })
+      );
 
       const expense = Object.values(days).map((day) =>
         day
@@ -123,10 +128,10 @@ export default {
 
       return [year, month, day].join("-");
     },
-  },
-  watch: {
-    user() {
+    refresh() {
       const database = firebase.database();
+
+      if (!this.user.uid) return;
 
       const ref = database.ref("users/" + this.user.uid + "/transactions");
       ref.on("value", (snapshot) => {
@@ -136,6 +141,11 @@ export default {
           Object.assign(entry[1], { id: entry[0] })
         );
       });
+    },
+  },
+  watch: {
+    user() {
+      this.refresh();
     },
   },
 };
