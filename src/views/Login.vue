@@ -1,11 +1,33 @@
 <template>
   <div class="login">
-    <h3>Sign in</h3>
-    <input v-model="email" type="text" placeholder="email" /><br />
-    <input v-model="password" type="password" placeholder="password" /><br />
-    <button @click="login">Sign in</button><br />
-    <button @click="loginGoogle">Sign in with Google</button><br />
-    <router-link to="/signup">Sign up</router-link>
+    <b-row class="justify-content-center">
+      <b-col cols="10" sm="6">
+        <b-card class="mt-4">
+          <h3>Sign in</h3>
+          <b-form>
+            <b-form-input
+              class="mt-3"
+              v-model="email"
+              type="text"
+              placeholder="email"
+            />
+            <b-form-input
+              class="mt-3"
+              v-model="password"
+              type="password"
+              placeholder="password"
+            />
+            <div class="mt-3 d-flex justify-content-between">
+              <b-button @click="login">Sign in</b-button>
+              <b-button @click="loginGoogle" variant="danger">Google</b-button>
+            </div>
+            <div class="mt-3">
+              Don't have an account? <router-link to="/signup">Sign up</router-link>
+            </div>
+          </b-form>
+        </b-card>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -14,7 +36,7 @@ import firebase from "firebase";
 export default {
   name: "Login",
   data() {
-    return {email: "", password: ""};
+    return { email: "", password: "" };
   },
   methods: {
     async login(event, provider = null) {

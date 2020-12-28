@@ -1,10 +1,32 @@
 <template>
   <div class="signup">
-    <h3>Sign up</h3>
-    <input v-model="email" type="text" placeholder="email" /><br />
-    <input v-model="password" type="password" placeholder="password" /><br />
-    <button @click="signup">Sign up</button><br />
-    <router-link to="/login">Back to login</router-link>
+    <b-row class="justify-content-center">
+      <b-col cols="10" sm="6">
+        <b-card class="mt-4">
+          <h3>Sign up</h3>
+          <b-form>
+            <b-form-input
+              class="mt-3"
+              v-model="email"
+              type="text"
+              placeholder="email"
+            />
+            <b-form-input
+              class="mt-3"
+              v-model="password"
+              type="password"
+              placeholder="password"
+            />
+            <div class="mt-3 d-flex justify-content-between">
+              <b-button @click="signup">Sign up</b-button>
+            </div>
+            <div class="mt-3">
+              Already have an account? <router-link to="/login">Sign in</router-link>
+            </div>
+          </b-form>
+        </b-card>
+      </b-col>
+    </b-row>
   </div>
 </template>
 

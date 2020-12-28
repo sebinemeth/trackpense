@@ -1,31 +1,42 @@
 <template>
   <div id="app">
     <div id="nav">
-      <h3>trackpense</h3>
+      <b-navbar toggleable="lg" type="dark" variant="dark">
+        <b-navbar-brand href="#">TrackPense</b-navbar-brand>
+        <b-navbar-nav class="ml-auto">
+          <b-button @click="logout" variant="dark">Logout</b-button>
+        </b-navbar-nav>
+      </b-navbar>
     </div>
-    <router-view/>
+    <router-view :user="user"/>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import firebase from "firebase";
+export default {
+  name: "App",
+  computed: {
+    user() {
+      var user = firebase.auth().currentUser;
+      if (user != null)
+        return {
+          name: user.displayName,
+          email: user.email,
+          photoUrl: user.photoURL,
+          emailVerified: user.emailVerified,
+          uid: user.uid,
+        };
+      return {};
+    },
+  },
+  methods: {
+    async logout() {
+      await firebase.auth().signOut();
+      this.$router.replace("login");
+    },
+  },
+};
+</script>
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+<style lang="scss"></style>
