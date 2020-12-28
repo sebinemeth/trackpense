@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <b-container class="mt-4">
+    <b-container class="my-4">
       <h4>User information</h4>
       <b-card class="my-3">
         <b-media>
@@ -17,9 +17,6 @@
             />
             <template v-else>
               <b-icon-exclamation-circle-fill variant="danger" /><br />
-              <!--<b-link @click="verifyEmail">
-                Email cím igazolása
-              </b-link>-->
             </template>
           </p>
         </b-media>
