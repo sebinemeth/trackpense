@@ -42,18 +42,23 @@ export default {
     return {
       amount: 0,
       description: "",
-      date: new Date().getFullYear() + "-" + (new Date().getMonth()+1) + "-" +  new Date().getDate()
+      date: new Date().getFullYear() + "-" + (new Date().getMonth()+1) + "-" +  new Date().getDate(),
+      transId: ""
     };
   },
   methods: {
     addEntry() {
-      var transactions = firebase.database().ref('users/' + this.user.uid + '/transactions');
-      var newTransRef = transactions.push();
+      var newTransRef = undefined
+      let transactionsPath = 'users/' + this.user.uid + '/transactions'
+      if (this.transId) {
+        newTransRef = firebase.database().ref(transactionsPath + '/this.transId'); 
+      } else {
+        var transactions = firebase.database().ref('users/' + this.user.uid + '/transactions');
+        newTransRef = transactions.push();
+      }
 
-      console.log(this.date)
       var momentDate = moment(this.date, 'YYYY-MM-DD');
       var jsDate = momentDate.toDate();
-      console.log(jsDate)
 
       newTransRef.set({
         income: this.income,
