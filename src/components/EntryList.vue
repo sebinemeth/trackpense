@@ -12,12 +12,9 @@
 
 <script>
 export default {
-  name: "Entry List",
-  props: {
-    listitems: {
-      type: Array,
-      default: []
-    }
-  }
+  name: "EntryList",
+  props: [
+    "listitems" 
+  ]
 }
 </script>
