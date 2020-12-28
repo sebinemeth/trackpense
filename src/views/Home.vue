@@ -70,7 +70,7 @@ export default {
   },
   computed: {
     chartData() {
-      const days = {};
+      let days = {};
       for (const e of this.listitems) {
         const day = this.formatDate(e.timestamp);
         if (!days[day]) days[day] = [];
@@ -83,6 +83,12 @@ export default {
           .reduce((acc, e) => acc + parseInt(e.amount), 0)
       );
 
+      days = Object.fromEntries(Object.entries(days).sort((a, b) => {
+        if (a[0] > b[0]) return 1;
+        if (a[0] < b[0]) return -1;
+        return 0;
+      }));
+
       const expense = Object.values(days).map((day) =>
         day
           .filter((e) => !e.income)
@@ -94,12 +100,14 @@ export default {
         datasets: [
           {
             label: "Income",
-            backgroundColor: "#0fc0fc",
+            borderColor: "#0fc0fc",
+            backgroundColor: "transparent",
             data: income,
           },
           {
             label: "Expense",
-            backgroundColor: "#f87979",
+            borderColor: "#f87979",
+            backgroundColor: "transparent",
             data: expense,
           },
         ],
