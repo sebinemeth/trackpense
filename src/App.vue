@@ -8,7 +8,7 @@
         </b-navbar-nav>
       </b-navbar>
     </div>
-    <router-view :user="user"/>
+    <router-view :user="user" />
   </div>
 </template>
 
@@ -16,19 +16,21 @@
 import firebase from "firebase";
 export default {
   name: "App",
-  computed: {
-    user() {
-      var user = firebase.auth().currentUser;
-      if (user != null)
-        return {
-          name: user.displayName,
-          email: user.email,
-          photoUrl: user.photoURL,
-          emailVerified: user.emailVerified,
-          uid: user.uid,
-        };
-      return {};
-    },
+  data() {
+    return { user: {} };
+  },
+  mounted() {
+    firebase.auth().onAuthStateChanged((user) => {
+      this.user = user
+        ? {
+            name: user.displayName,
+            email: user.email,
+            photoUrl: user.photoURL,
+            emailVerified: user.emailVerified,
+            uid: user.uid,
+          }
+        : {};
+    });
   },
   methods: {
     async logout() {
