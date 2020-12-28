@@ -44,7 +44,7 @@
         <add-entry :income="true" :user="user"></add-entry>
       </b-modal>
 
-      <entry-list :listitems="listitems"></entry-list>
+      <entry-list :listitems="listitems" class="mt-3"></entry-list>
     </b-container>
   </div>
 </template>
@@ -67,7 +67,9 @@ export default {
     const ref = database.ref("users/" + this.user.uid + "/transactions");
     ref.on("value", (snapshot) => {
       const data = snapshot.val();
-      console.log(data);
+      this.listitems = Object.entries(data).map((entry) =>
+        Object.assign(entry[1], { id: entry[0] })
+      );
     });
   },
 };
