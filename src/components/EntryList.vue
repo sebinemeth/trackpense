@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: "Entry List",
+  name: "EntryList",
   props: [
     "listitems" 
   ]
