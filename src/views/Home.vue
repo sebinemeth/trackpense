@@ -36,12 +36,12 @@
         <b-button v-b-modal.addIncome><b-icon-file-plus /> Add income</b-button>
       </div>
 
-      <b-modal id="addExpense" title="Add expense">
-        <add-entry :income="false"></add-entry>
+      <b-modal id="addExpense" title="Add expense" hide-footer>
+        <add-entry :income="false" :user="user"></add-entry>
       </b-modal>
 
-      <b-modal id="addIncome" title="Add income">
-        <add-entry :income="true"></add-entry>
+      <b-modal id="addIncome" title="Add income" hide-footer>
+        <add-entry :income="true" :user="user"></add-entry>
       </b-modal>
 
       <entry-list :listitems="listitems"></entry-list>
@@ -64,7 +64,7 @@ export default {
   mounted() {
     const database = firebase.database();
 
-    const ref = database.ref("users/" + this.user.uid);
+    const ref = database.ref("users/" + this.user.uid + "/transactions");
     ref.on("value", (snapshot) => {
       const data = snapshot.val();
       console.log(data);
