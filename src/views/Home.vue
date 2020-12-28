@@ -26,6 +26,7 @@
       </b-card>
       <h4>Balance</h4>
       <b-card class="my-3">
+        <total-balance :listitems="listitems"></total-balance>
         <line-chart :chart-data="chartData"></line-chart>
       </b-card>
 
@@ -58,10 +59,11 @@ import firebase from "firebase";
 import AddEntry from "@/components/AddEntry.vue";
 import EntryList from "@/components/EntryList.vue";
 import LineChart from "@/components/LineChart.js";
+import TotalBalance from "../components/TotalBalance.vue";
 
 export default {
   name: "Home",
-  components: { AddEntry, EntryList, LineChart },
+  components: { AddEntry, EntryList, LineChart, TotalBalance },
   props: ["user"],
   data() {
     return { listitems: [] };
@@ -76,11 +78,15 @@ export default {
       }
 
       const income = Object.values(days).map((day) =>
-        day.filter((e) => e.income).reduce((acc, e) => acc + parseInt(e.amount), 0)
+        day
+          .filter((e) => e.income)
+          .reduce((acc, e) => acc + parseInt(e.amount), 0)
       );
 
       const expense = Object.values(days).map((day) =>
-        day.filter((e) => !e.income).reduce((acc, e) => acc + parseInt(e.amount), 0)
+        day
+          .filter((e) => !e.income)
+          .reduce((acc, e) => acc + parseInt(e.amount), 0)
       );
 
       return {
@@ -90,7 +96,8 @@ export default {
             label: "Income",
             backgroundColor: "#0fc0fc",
             data: income,
-          },{
+          },
+          {
             label: "Expense",
             backgroundColor: "#f87979",
             data: expense,

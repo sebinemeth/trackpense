@@ -1,26 +1,21 @@
 <template>
   <div>
-    <b-list-group>
-      <b-list-group-item v-for="e in listitems" v-bind:key="e.id">
-        <div>{{ e.descripiton }}</div>
-        <div>{{ e.date }}</div>
-        <div float="right">{{ e.amount }}</div>
-      </b-list-group-item>
-    </b-list-group>
+    <b-jumbotron :header="totalSum" class="text-center"> </b-jumbotron>
   </div>
 </template>
 
 <script>
 export default {
-  name: "EntryList",
-  props: [
-    "listitems" 
-  ]
-}
+  name: "TotalBalance",
+  props: ["listitems"],
+  computed: {
+    totalSum() {
+      return (
+        this.listitems
+          .reduce((acc, e) => acc + parseInt(e.amount * (e.income ? 1 : -1)), 0)
+          .toFixed(0) + " Ft"
+      );
+    },
+  },
+};
 </script>
-
-computed: {
-    total: function() {
-      return this.model.services.reduce(function(a, c){return a + Number((c.rate*c.qnty) || 0)}, 0)
-    }
-  }
