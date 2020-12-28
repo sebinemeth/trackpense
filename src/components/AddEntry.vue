@@ -1,19 +1,20 @@
 <template>
   <div class="root">
     <div v-if="income">
-      <label>Income details</label>
       <label for="amount">Amount</label>
-      <b-form-input type="number" id="amount"></b-form-input>
+      <b-form-input v-model=amount type="number" id="amount"></b-form-input>
     </div>
     <div v-else>
-      <label>Expense details</label>
       <label for="amount">Amount</label>
-      <b-form-input type="number" id="amount"></b-form-input>
+      <b-form-input v-model=amount type="number" id="amount"></b-form-input>
     </div>
   </div>
 </template>
 
 <script>
+
+import firebase from 'firebase';
+
 export default {
   name: "AddEntry",
   props: {
@@ -21,12 +22,23 @@ export default {
       type: Boolean,
       default: false,
     },
+    user: {
+      type: Object
+    }
   },
   data() {
-    return {};
+    return {amount: 0};
   },
   methods: {
-    dosomething() {},
+    addEntry() {
+      var transactions = firebase.database().ref('users/' + this.user.uid + '/transactions');
+      var newTransRef = transactions.push();
+      newTransRef.set({
+        income: this.income,
+        amount: this.amount,
+        timestamp : Date.now()
+      });
+    },
   },
 };
 </script>
