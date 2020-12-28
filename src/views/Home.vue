@@ -83,8 +83,6 @@ export default {
         day.filter((e) => !e.income).reduce((acc, e) => acc + parseInt(e.amount), 0)
       );
 
-      console.log(days, income, expense);
-
       return {
         labels: Object.keys(days),
         datasets: [
