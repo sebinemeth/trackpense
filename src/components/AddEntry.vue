@@ -14,6 +14,10 @@
       <label for="description">Description</label>
       <b-form-input v-model=description type="text" id="description" placeholder="Bread"></b-form-input>
     </div>
+    <div>
+      <label for="example-datepicker">Date</label>
+      <b-form-datepicker id="example-datepicker" v-model="date" class="mb-2" ></b-form-datepicker>
+    </div>
     <b-button @click="addEntry">Add</b-button>
   </div>
 </template>
@@ -21,6 +25,7 @@
 <script>
 
 import firebase from 'firebase';
+import moment from 'moment';
 
 export default {
   name: "AddEntry",
@@ -36,18 +41,25 @@ export default {
   data() {
     return {
       amount: 0,
-      description: ""
+      description: "",
+      date: new Date().getFullYear() + "-" + (new Date().getMonth()+1) + "-" +  new Date().getDate()
     };
   },
   methods: {
     addEntry() {
       var transactions = firebase.database().ref('users/' + this.user.uid + '/transactions');
       var newTransRef = transactions.push();
+
+      console.log(this.date)
+      var momentDate = moment(this.date, 'YYYY-MM-DD');
+      var jsDate = momentDate.toDate();
+      console.log(jsDate)
+
       newTransRef.set({
         income: this.income,
         amount: this.amount,
         description: this.description,
-        timestamp : Date.now()
+        timestamp: jsDate.getTime()
       });
       this.$bvModal.hide("addExpense")
       this.$bvModal.hide("addIncome")
