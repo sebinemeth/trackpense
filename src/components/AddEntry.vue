@@ -49,6 +49,8 @@ export default {
         description: this.description,
         timestamp : Date.now()
       });
+      this.$bvModal.hide("addExpense")
+      this.$bvModal.hide("addIncome")
     },
   },
 };
