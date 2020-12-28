@@ -84,19 +84,19 @@ export default {
       };
     },
   },
-  mounted() {
-    const database = firebase.database();
+  watch: {
+    user() {
+      const database = firebase.database();
 
-    console.log(this.user.uid);
-
-    const ref = database.ref("users/" + this.user.uid + "/transactions");
-    ref.on("value", (snapshot) => {
-      const data = snapshot.val();
-      if(snapshot)
+      const ref = database.ref("users/" + this.user.uid + "/transactions");
+      ref.on("value", (snapshot) => {
+        const data = snapshot.val();
+        console.log(snapshot);
         this.listitems = Object.entries(data).map((entry) =>
           Object.assign(entry[1], { id: entry[0] })
         );
-    });
+      });
+    },
   },
 };
 </script>
