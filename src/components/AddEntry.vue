@@ -51,9 +51,9 @@ export default {
       var newTransRef = undefined
       let transactionsPath = 'users/' + this.user.uid + '/transactions'
       if (this.transId) {
-        newTransRef = firebase.database().ref(transactionsPath + '/this.transId'); 
+        newTransRef = firebase.database().ref(transactionsPath + '/' + this.transId); 
       } else {
-        var transactions = firebase.database().ref('users/' + this.user.uid + '/transactions');
+        var transactions = firebase.database().ref(transactionsPath);
         newTransRef = transactions.push();
       }
 
