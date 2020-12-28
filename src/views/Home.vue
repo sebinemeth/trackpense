@@ -68,20 +68,50 @@ export default {
   },
   computed: {
     chartData() {
+      const days = {};
+      for (const e of this.listitems) {
+        const day = this.formatDate(e.timestamp);
+        if (!days[day]) days[day] = [];
+        days[day].push(e);
+      }
+
+      const income = Object.values(days).map((day) =>
+        day.filter((e) => e.income).reduce((acc, e) => acc + parseInt(e.amount), 0)
+      );
+
+      const expense = Object.values(days).map((day) =>
+        day.filter((e) => !e.income).reduce((acc, e) => acc + parseInt(e.amount), 0)
+      );
+
+      console.log(days, income, expense);
+
       return {
-        labels: this.listitems.map((item) =>
-          new Date(item.timestamp).toLocaleString()
-        ),
+        labels: Object.keys(days),
         datasets: [
           {
-            label: "Data One",
+            label: "Income",
+            backgroundColor: "#0fc0fc",
+            data: income,
+          },{
+            label: "Expense",
             backgroundColor: "#f87979",
-            data: this.listitems.map(
-              (item) => item.amount * (item.income ? 1 : -1)
-            ),
+            data: expense,
           },
         ],
       };
+    },
+  },
+  methods: {
+    formatDate(date) {
+      var d = new Date(date),
+        month = "" + (d.getMonth() + 1),
+        day = "" + d.getDate(),
+        year = d.getFullYear();
+
+      if (month.length < 2) month = "0" + month;
+      if (day.length < 2) day = "0" + day;
+
+      return [year, month, day].join("-");
     },
   },
   watch: {
