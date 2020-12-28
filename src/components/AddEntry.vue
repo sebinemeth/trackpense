@@ -8,6 +8,7 @@
       <label for="amount">Amount</label>
       <b-form-input v-model=amount type="number" id="amount"></b-form-input>
     </div>
+    <b-button @click="addEntry">Add</b-button>
   </div>
 </template>
 
