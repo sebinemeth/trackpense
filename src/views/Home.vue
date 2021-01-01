@@ -17,6 +17,9 @@
             />
             <template v-else>
               <b-icon-exclamation-circle-fill variant="danger" /><br />
+              <b-link @click="verifyEmail">
+                Verify email address
+              </b-link>
             </template>
           </p>
         </b-media>
@@ -86,8 +89,7 @@ export default {
 
       for (const e of this.listitems) {
         const day = this.formatDate(e.timestamp);
-        //if (!days[day]) days[day] = [];
-        console.log(days, day, e);
+        if (!days[day]) days[day] = [];
         days[day].push(e);
       }
 
@@ -153,6 +155,25 @@ export default {
           .map((entry) => Object.assign(entry[1], { id: entry[0] }))
           .sort((a, b) => a.timestamp - b.timestamp);
       });
+    },
+    async verifyEmail() {
+      const user = firebase.auth().currentUser;
+      try {
+        await user.sendEmailVerification();
+        this.$bvToast.toast(`Email sent to ${user.email}`, {
+          title: `Success`,
+          variant: "success",
+          solid: true,
+        });
+        console.log(`email sent to ${user.email}`);
+      } catch (error) {
+        this.$bvToast.toast(error.message, {
+          title: `Fail`,
+          variant: "danger",
+          solid: true,
+        });
+        console.log(error);
+      }
     },
   },
   watch: {
