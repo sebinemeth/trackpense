@@ -24,7 +24,13 @@
       <h4>Balance</h4>
       <b-card class="my-3">
         <total-balance :listitems="listitems"></total-balance>
-        <line-chart :chart-data="chartData"></line-chart>
+        <line-chart
+          :chart-data="chartData"
+          :options="{
+            responsive: true,
+            maintainAspectRatio: false,
+          }"
+        ></line-chart>
       </b-card>
 
       <h4>Recent activity</h4>
@@ -71,9 +77,19 @@ export default {
   computed: {
     chartData() {
       const days = {};
+
+      const now = new Date().getTime();
+      for (
+        let timestamp = this.listitems[0]?.timestamp;
+        timestamp < now;
+        timestamp += 20 * 60 * 60 * 1000
+      )
+        days[this.formatDate(timestamp)] = [];
+      days[this.formatDate(now)] = [];
+
       for (const e of this.listitems) {
         const day = this.formatDate(e.timestamp);
-        if (!days[day]) days[day] = [];
+        //if (!days[day]) days[day] = [];
         days[day].push(e);
       }
 
