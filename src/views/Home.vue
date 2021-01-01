@@ -8,7 +8,13 @@
             <b-avatar :src="user.photoUrl" />
           </template>
 
-          <h5 class="mt-0">{{ user.name || dummyName || user.email }}</h5>
+          <h5 class="mt-0">
+            {{
+              user.name ||
+                dummyName ||
+                user.email.substring(0, user.email.indexOf("@"))
+            }}
+          </h5>
           <p class="mb-0">
             {{ user.email }}
             <b-icon-check-circle-fill
@@ -63,7 +69,6 @@ import AddEntry from "@/components/AddEntry.vue";
 import EntryList from "@/components/EntryList.vue";
 import LineChart from "@/components/LineChart.js";
 import TotalBalance from "../components/TotalBalance.vue";
-import axios from "axios";
 
 export default {
   name: "Home",
@@ -74,11 +79,9 @@ export default {
   },
   mounted() {
     this.refresh();
-    (async () => {
-      const result = await axios.get("https://randomuser.me/api/");
-      console.log(result);
-      this.dummyName = result.results[0].name.first;
-    })();
+    var random = require("random-name");
+    console.log(random())
+    this.dummyName = random();
   },
   computed: {
     chartData() {
