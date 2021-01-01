@@ -26,10 +26,7 @@
         <total-balance :listitems="listitems"></total-balance>
         <line-chart
           :chart-data="chartData"
-          :options="{
-            responsive: true,
-            maintainAspectRatio: false,
-          }"
+          :options="chartOptions"
         ></line-chart>
       </b-card>
 
@@ -121,6 +118,12 @@ export default {
             data: expense,
           },
         ],
+      };
+    },
+    chartOptions() {
+      return {
+        responsive: true,
+        maintainAspectRatio: false,
       };
     },
   },
