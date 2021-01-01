@@ -24,6 +24,9 @@
             <div class="mt-3">
               Don't have an account? <router-link to="/signup">Sign up</router-link>
             </div>
+            <div class="mt-3">
+              <router-link to="/reset">Forgot password?</router-link>
+            </div>
           </b-form>
         </b-card>
       </b-col>

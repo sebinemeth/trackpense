@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import SignUp from '../views/SignUp.vue'
+import Reset from '../views/Reset.vue'
 import firebase from 'firebase';
 
 Vue.use(VueRouter)
@@ -23,14 +24,21 @@ const routes = [
     meta: {
       requiresAuth: true,
     }
-  }, {
+  },
+  {
     path: '/login',
     name: 'Login',
     component: Login
-  }, {
+  },
+  {
     path: '/signup',
     name: 'SignUp',
     component: SignUp
+  },
+  {
+    path: '/reset',
+    name: 'Reset',
+    component: Reset
   },
 ]
 
