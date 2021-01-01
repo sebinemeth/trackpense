@@ -70,7 +70,7 @@ export default {
   },
   computed: {
     chartData() {
-      let days = {};
+      const days = {};
       for (const e of this.listitems) {
         const day = this.formatDate(e.timestamp);
         if (!days[day]) days[day] = [];
@@ -81,14 +81,6 @@ export default {
         day
           .filter((e) => e.income)
           .reduce((acc, e) => acc + parseInt(e.amount), 0)
-      );
-
-      days = Object.fromEntries(
-        Object.entries(days).sort((a, b) => {
-          if (a[0] > b[0]) return 1;
-          if (a[0] < b[0]) return -1;
-          return 0;
-        })
       );
 
       const expense = Object.values(days).map((day) =>
@@ -137,9 +129,9 @@ export default {
       ref.on("value", (snapshot) => {
         const data = snapshot.val();
         console.log(snapshot);
-        this.listitems = Object.entries(data).map((entry) =>
-          Object.assign(entry[1], { id: entry[0] })
-        );
+        this.listitems = Object.entries(data)
+          .map((entry) => Object.assign(entry[1], { id: entry[0] }))
+          .sort((a, b) => a.timestamp - b.timestamp);
       });
     },
   },
