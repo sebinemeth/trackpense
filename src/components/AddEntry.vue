@@ -1,10 +1,9 @@
 <template>
   <div class="root">
+    <label for="amount">Amount</label>
+      <b-form-input v-model="amount" type="number" id="amount" min="0" oninput="validity.valid||(value='');"></b-form-input>
+    <label for="description">Description</label>
     <div v-if="income">
-      <label for="amount">Amount</label>
-      <b-form-input v-model="amount" type="number" id="amount"></b-form-input>
-
-      <label for="description">Description</label>
       <b-form-input
         v-model="description"
         type="text"
@@ -13,10 +12,6 @@
       ></b-form-input>
     </div>
     <div v-else>
-      <label for="amount">Amount</label>
-      <b-form-input v-model="amount" type="number" id="amount"></b-form-input>
-
-      <label for="description">Description</label>
       <b-form-input
         v-model="description"
         type="text"
@@ -32,9 +27,14 @@
         class="mb-2"
       ></b-form-datepicker>
     </div>
-    <b-button @click="addEntry">{{
-      this.transaction ? "Save" : "Add"
-    }}</b-button>
+    <div class="d-flex justify-content-between">
+      <b-button @click="addEntry">{{
+        this.transaction ? "Save" : "Add"
+      }}</b-button>
+      <div v-if=this.transaction>
+        <b-button @click="deleteEntry" variant="danger">{{"Delete"}}</b-button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -99,6 +99,20 @@ export default {
         description: this.description,
         timestamp: jsDate.getTime(),
       });
+      this.$bvModal.hide("addExpense");
+      this.$bvModal.hide("addIncome");
+      this.$bvModal.hide("editExpense");
+      this.$bvModal.hide("editIncome");
+    },
+    deleteEntry() {
+      let transactionsPath = "users/" + this.user.uid + "/transactions";
+
+      var newTransRef = firebase
+        .database()
+        .ref(transactionsPath + "/" + this.transaction.id);
+
+      newTransRef.remove();
+
       this.$bvModal.hide("addExpense");
       this.$bvModal.hide("addIncome");
       this.$bvModal.hide("editExpense");
