@@ -87,6 +87,7 @@ export default {
       for (const e of this.listitems) {
         const day = this.formatDate(e.timestamp);
         //if (!days[day]) days[day] = [];
+        console.log(days, day, e);
         days[day].push(e);
       }
 
